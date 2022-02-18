@@ -1,0 +1,56 @@
+openapi: 3.0.1
+info:
+  title: Order Service
+  description: Order CRUD API.
+  version: 1.0.0
+servers:
+  - url: /v2
+paths:
+  /customer:
+    get:
+      summary: Get Customers
+      operationId: getCustomers
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          example: John
+        surname:
+          type: string
+          example: Sanderson
+    Contact:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        customerId:
+          type: integer
+          format: int64
+        phoneNumber:
+          type: string
+          example: +35699720374
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        productType:
+          type: integer
+          format: enum
