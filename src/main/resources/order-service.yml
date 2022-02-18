@@ -19,6 +19,23 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Customer'
+  /authenticate:
+    post:
+      summary: Authenticate API users
+      operationId: authenticate
+      requestBody:
+        description: Authentication request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JwtRequest'
+      responses:
+        200:
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtResponse'
 components:
   schemas:
     Customer:
@@ -54,3 +71,18 @@ components:
         productType:
           type: integer
           format: enum
+    JwtRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          example: j.sanderson
+        password:
+          type: string
+          example: g6dpq38kY7ENmdnqBrRHssy
+    JwtResponse:
+      type: object
+      properties:
+        jwtToken:
+          type: string
+          example: 5ktH96mqT3ZERwyyhWZtQ5V
