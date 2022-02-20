@@ -24,7 +24,9 @@ public class CustomerController implements CustomerApi {
     private final ContactRepository contactRepository;
     private final ModelMapper modelMapper;
 
-    public CustomerController(final CustomerRepository customerRepository, final ContactRepository contactRepository, final ModelMapper modelMapper) {
+    public CustomerController(final CustomerRepository customerRepository,
+                              final ContactRepository contactRepository,
+                              final ModelMapper modelMapper) {
 
         this.customerRepository = customerRepository;
         this.contactRepository = contactRepository;

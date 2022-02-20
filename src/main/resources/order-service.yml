@@ -109,6 +109,56 @@ paths:
       responses:
         200:
           description: Successful response
+  /product:
+    get:
+      summary: Get products
+      operationId: getProducts
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+    post:
+      summary: Create a product
+      operationId: createProduct
+      requestBody:
+        $ref: '#/components/requestBodies/SaveProductRequest'
+      responses:
+        200:
+          description: Successful response
+    put:
+      summary: Update product
+      operationId: updateProduct
+      requestBody:
+        $ref: '#/components/requestBodies/SaveProductRequest'
+      responses:
+        200:
+          description: Successful response
+  /product/{productId}:
+    get:
+      summary: Get product by id
+      operationId: getProduct
+      parameters:
+        - $ref: '#/components/parameters/productId'
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+    delete:
+      summary: Delete product by id
+      operationId: deleteProduct
+      parameters:
+        - $ref: '#/components/parameters/productId'
+      responses:
+        200:
+          description: Successful response
   /authenticate:
     post:
       summary: Authenticate API users
@@ -142,6 +192,13 @@ components:
         type: number
       required: true
       description: Numeric ID of the contact to get
+    productId:
+      in: path
+      name: productId
+      schema:
+        type: number
+      required: true
+      description: Numeric ID of the product to get
   requestBodies:
     SaveCustomerRequest:
       content:
@@ -153,6 +210,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Contact'
+    SaveProductRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Product'
     JwtRequest:
       content:
         application/json:
@@ -201,7 +263,7 @@ components:
         productType:
           type: string
           enum: [ "Internet", "TV", "Telephony", "Mobile" ]
-        package:
+        productPackage:
           type: string
           example: 250Mbit
     Order:

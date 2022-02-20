@@ -17,3 +17,12 @@ CREATE TABLE TBL_CONTACT
     phone_number VARCHAR(250) NOT NULL,
     address      VARCHAR(250) NOT NULL
 );
+
+DROP TABLE IF EXISTS TBL_PRODUCT;
+
+CREATE TABLE TBL_PRODUCT
+(
+    id              INT AUTO_INCREMENT PRIMARY KEY,
+    product_type    VARCHAR(250) NOT NULL,
+    product_package VARCHAR(250) NOT NULL
+);
