@@ -24,6 +24,7 @@
         <openapi-generator-maven-plugin.version>5.4.0</openapi-generator-maven-plugin.version>
         <build-helper-maven-plugin.version>3.2.0</build-helper-maven-plugin.version>
         <jwt.version>0.9.1</jwt.version>
+        <modelmapper.version>2.4.5</modelmapper.version>
     </properties>
     <dependencies>
         <dependency>
@@ -36,11 +37,20 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-client</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>${modelmapper.version}</version>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>

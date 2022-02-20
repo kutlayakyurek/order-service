@@ -20,10 +20,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] AUTH_WHITELIST = {
             "/authenticate",
+            "/h2-console/**",
             "/v2/api-docs",
             "/swagger-resources",
             "/swagger-resources/**",
@@ -39,9 +40,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final JwtUserDetailsService jwtUserDetailsService;
     private final JwtRequestFilter jwtRequestFilter;
 
-    public SecurityConfiguration(final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-                                 final JwtUserDetailsService jwtUserDetailsService,
-                                 final JwtRequestFilter jwtRequestFilter) {
+    public SecurityConfig(final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
+                          final JwtUserDetailsService jwtUserDetailsService,
+                          final JwtRequestFilter jwtRequestFilter) {
 
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
         this.jwtUserDetailsService = jwtUserDetailsService;

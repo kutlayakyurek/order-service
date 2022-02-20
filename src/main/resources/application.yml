@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:order;DB_CLOSE_DELAY=-1
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  h2:
+    console:
+      enabled: false
+      settings:
+        trace: false
+        web-allow-others: false
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+
+security:
+  username: "test"
+  password: "$2a$10$slYQmyNdGzTn7ZLBXBChFOC9f6kFjAqPhccnP6DxlWXx2lPk1C3G6"
+  jwt:
+    secret: "n6q7BqUG65qWW3AC7aQE2Ku"

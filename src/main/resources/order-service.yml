@@ -8,7 +8,7 @@ servers:
 paths:
   /customer:
     get:
-      summary: Get Customers
+      summary: Get customers
       operationId: getCustomers
       responses:
         200:
@@ -19,6 +19,43 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Customer'
+    post:
+      summary: Create a customer
+      operationId: createCustomer
+      requestBody:
+        $ref: '#/components/requestBodies/SaveCustomerRequest'
+      responses:
+        200:
+          description: Successful response
+    put:
+      summary: Update customer by id
+      operationId: updateCustomer
+      requestBody:
+        $ref: '#/components/requestBodies/SaveCustomerRequest'
+      responses:
+        200:
+          description: Successful response
+  /customer/{id}:
+    get:
+      summary: Get customer by id
+      operationId: getCustomer
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+    delete:
+      summary: Delete customer by id
+      operationId: deleteCustomer
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Successful response
   /authenticate:
     post:
       summary: Authenticate API users
@@ -37,6 +74,28 @@ paths:
               schema:
                 $ref: '#/components/schemas/JwtResponse'
 components:
+  parameters:
+    id:
+      in: path
+      name: id
+      schema:
+        type: number
+      required: true
+      description: Numeric ID of the item to get
+  requestBodies:
+    SaveCustomerRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Customer'
+    JwtRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/JwtRequest'
+  responses:
+    JwtResponse:
+      $ref: '#/components/schemas/JwtResponse'
   schemas:
     Customer:
       type: object
@@ -44,12 +103,15 @@ components:
         id:
           type: integer
           format: int64
-        name:
+        firstName:
           type: string
           example: John
-        surname:
+        lastName:
           type: string
           example: Sanderson
+        email:
+          type: string
+          example: jsanderson@gmail.com
     Contact:
       type: object
       properties:
@@ -62,6 +124,9 @@ components:
         phoneNumber:
           type: string
           example: +35699720374
+        address:
+          type: string
+          example: 443 Trig D'Argens
     Product:
       type: object
       properties:
@@ -69,8 +134,25 @@ components:
           type: integer
           format: int64
         productType:
+          type: string
+          enum: [ "Internet", "TV", "Telephony", "Mobile" ]
+        package:
+          type: string
+          example: 250Mbit
+    Order:
+      type: object
+      properties:
+        id:
           type: integer
-          format: enum
+          format: int64
+        productId:
+          type: integer
+          format: int64
+        contactId:
+          type: integer
+          format: int64
+    CreateCustomerRequest:
+      $ref: '#/components/schemas/Customer'
     JwtRequest:
       type: object
       properties:
