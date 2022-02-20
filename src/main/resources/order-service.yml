@@ -28,19 +28,19 @@ paths:
         200:
           description: Successful response
     put:
-      summary: Update customer by id
+      summary: Update customer
       operationId: updateCustomer
       requestBody:
         $ref: '#/components/requestBodies/SaveCustomerRequest'
       responses:
         200:
           description: Successful response
-  /customer/{id}:
+  /customer/{customerId}:
     get:
       summary: Get customer by id
       operationId: getCustomer
       parameters:
-        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/customerId'
       responses:
         200:
           description: Successful response
@@ -52,7 +52,60 @@ paths:
       summary: Delete customer by id
       operationId: deleteCustomer
       parameters:
-        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/customerId'
+      responses:
+        200:
+          description: Successful response
+  /customer/contact:
+    put:
+      summary: Update contact
+      operationId: updateContact
+      requestBody:
+        $ref: '#/components/requestBodies/SaveContactRequest'
+      responses:
+        200:
+          description: Successful response
+    post:
+      summary: Create a contact
+      operationId: createContact
+      requestBody:
+        $ref: '#/components/requestBodies/SaveContactRequest'
+      responses:
+        200:
+          description: Successful response
+  /customer/{customerId}/contact:
+    get:
+      summary: Get contacts of the customer
+      operationId: getContacts
+      parameters:
+        - $ref: '#/components/parameters/customerId'
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Contact'
+  /customer/contact/{contactId}:
+    get:
+      summary: Get contact by id
+      operationId: getContact
+      parameters:
+        - $ref: '#/components/parameters/contactId'
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+    delete:
+      summary: Delete contact by id
+      operationId: deleteContact
+      parameters:
+        - $ref: '#/components/parameters/contactId'
       responses:
         200:
           description: Successful response
@@ -75,19 +128,31 @@ paths:
                 $ref: '#/components/schemas/JwtResponse'
 components:
   parameters:
-    id:
+    customerId:
       in: path
-      name: id
+      name: customerId
       schema:
         type: number
       required: true
-      description: Numeric ID of the item to get
+      description: Numeric ID of the customer to get
+    contactId:
+      in: path
+      name: contactId
+      schema:
+        type: number
+      required: true
+      description: Numeric ID of the contact to get
   requestBodies:
     SaveCustomerRequest:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Customer'
+    SaveContactRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Contact'
     JwtRequest:
       content:
         application/json:
