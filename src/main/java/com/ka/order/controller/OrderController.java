@@ -12,6 +12,7 @@ import com.ka.swagger.model.Order;
 import com.ka.swagger.model.UpdateOrderRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,12 @@ import java.util.Optional;
 
 @RestController
 public class OrderController implements OrderApi {
+
+    @Value("${amqp.queue.exchange}")
+    private String exchange;
+
+    @Value("${amqp.queue.routingKey}")
+    private String routingKey;
 
     private final OrderRepository orderRepository;
     private final ContactRepository contactRepository;
@@ -58,7 +65,7 @@ public class OrderController implements OrderApi {
         entity.setProduct(productEntityOptional.get());
 
         orderRepository.save(entity);
-        rabbitTemplate.convertAndSend(entity);
+        rabbitTemplate.convertAndSend(exchange, routingKey, entity);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
