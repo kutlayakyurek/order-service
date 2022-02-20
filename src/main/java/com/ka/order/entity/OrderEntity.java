@@ -1,6 +1,5 @@
 package com.ka.order.entity;
 
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -11,15 +10,16 @@ import javax.persistence.Table;
 
 @Data
 @Entity
-@Table(name = "TBL_CONTACT")
+@Table(name = "TBL_ORDER")
 @EqualsAndHashCode(callSuper = true)
-public class ContactEntity extends AbstractEntity {
+public class OrderEntity extends AbstractEntity {
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private CustomerEntity customer;
+    @JoinColumn(name = "product_id")
+    private ProductEntity product;
 
-    private String address;
-    private String phoneNumber;
+    @ManyToOne
+    @JoinColumn(name = "contact_id")
+    private ContactEntity contact;
 
 }

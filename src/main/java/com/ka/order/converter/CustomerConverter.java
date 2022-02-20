@@ -7,12 +7,15 @@ import org.modelmapper.spi.MappingContext;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CustomerConvertor implements Converter<Customer, CustomerEntity> {
+public class CustomerConverter implements Converter<Customer, CustomerEntity> {
 
     @Override
     public CustomerEntity convert(final MappingContext<Customer, CustomerEntity> mappingContext) {
         final Customer customerDto = mappingContext.getSource();
+        return convert(customerDto);
+    }
 
+    public CustomerEntity convert(final Customer customerDto) {
         final CustomerEntity customerEntity = new CustomerEntity();
         customerEntity.setFirstName(customerDto.getFirstName());
         customerEntity.setLastName(customerDto.getLastName());

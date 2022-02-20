@@ -2,11 +2,15 @@ package com.ka.order.controller;
 
 import com.ka.order.entity.ContactEntity;
 import com.ka.order.entity.CustomerEntity;
+import com.ka.order.entity.OrderEntity;
+import com.ka.order.entity.ProductEntity;
 import com.ka.order.repository.ContactRepository;
 import com.ka.order.repository.CustomerRepository;
+import com.ka.order.repository.OrderRepository;
 import com.ka.swagger.api.CustomerApi;
 import com.ka.swagger.model.Contact;
 import com.ka.swagger.model.Customer;
+import com.ka.swagger.model.Order;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,14 +26,17 @@ public class CustomerController implements CustomerApi {
 
     private final CustomerRepository customerRepository;
     private final ContactRepository contactRepository;
+    private final OrderRepository orderRepository;
     private final ModelMapper modelMapper;
 
     public CustomerController(final CustomerRepository customerRepository,
                               final ContactRepository contactRepository,
+                              final OrderRepository orderRepository,
                               final ModelMapper modelMapper) {
 
         this.customerRepository = customerRepository;
         this.contactRepository = contactRepository;
+        this.orderRepository = orderRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -144,11 +151,69 @@ public class CustomerController implements CustomerApi {
         }
 
         final ContactEntity foundEntity = contactEntityOptional.get();
-        foundEntity.setCustomerId(contact.getCustomerId());
         foundEntity.setAddress(contact.getAddress());
         foundEntity.setPhoneNumber(contact.getPhoneNumber());
 
         contactRepository.save(foundEntity);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Void> createOrder(final Order order) {
+        final OrderEntity entity = modelMapper.map(order, OrderEntity.class);
+        orderRepository.save(entity);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteOrder(final BigDecimal orderId) {
+        if (!orderRepository.existsById(orderId.longValue())) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        orderRepository.deleteById(orderId.longValue());
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Order> getOrder(final BigDecimal orderId) {
+        final Optional<OrderEntity> orderEntity = orderRepository.findById(orderId.longValue());
+
+        if (orderEntity.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        final Order contact = modelMapper.map(orderEntity.get(), Order.class);
+
+        return new ResponseEntity<>(contact, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<Order>> getOrders(final BigDecimal customerId) {
+        final List<OrderEntity> orders = orderRepository.findAll();
+        final List<Order> resultList = new ArrayList<>();
+
+        orders.forEach(o -> resultList.add(modelMapper.map(o, Order.class)));
+
+        return new ResponseEntity<>(resultList, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Void> updateOrder(final Order order) {
+        final Optional<OrderEntity> orderEntityOptional = orderRepository.findById(order.getId());
+
+        if (orderEntityOptional.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        final OrderEntity foundEntity = orderEntityOptional.get();
+        foundEntity.setProduct(modelMapper.map(order.getProduct(), ProductEntity.class));
+        foundEntity.setContact(modelMapper.map(order.getContact(), ContactEntity.class));
+
+        orderRepository.save(foundEntity);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

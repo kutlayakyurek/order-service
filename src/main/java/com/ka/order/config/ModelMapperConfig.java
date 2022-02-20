@@ -1,6 +1,6 @@
 package com.ka.order.config;
 
-import com.ka.order.converter.CustomerConvertor;
+import com.ka.order.converter.CustomerConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,9 +8,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ModelMapperConfig {
 
-    private final CustomerConvertor customerConvertor;
+    private final CustomerConverter customerConvertor;
 
-    public ModelMapperConfig(final CustomerConvertor customerConvertor) {
+    public ModelMapperConfig(final CustomerConverter customerConvertor) {
         this.customerConvertor = customerConvertor;
     }
 

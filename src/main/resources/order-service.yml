@@ -159,6 +159,59 @@ paths:
       responses:
         200:
           description: Successful response
+  /customer/order:
+    put:
+      summary: Update order
+      operationId: updateOrder
+      requestBody:
+        $ref: '#/components/requestBodies/SaveOrderRequest'
+      responses:
+        200:
+          description: Successful response
+    post:
+      summary: Create an order
+      operationId: createOrder
+      requestBody:
+        $ref: '#/components/requestBodies/SaveOrderRequest'
+      responses:
+        200:
+          description: Successful response
+  /customer/{customerId}/order:
+    get:
+      summary: Get orders of the customer
+      operationId: getOrders
+      parameters:
+        - $ref: '#/components/parameters/customerId'
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+  /customer/order/{orderId}:
+    get:
+      summary: Get order by id
+      operationId: getOrder
+      parameters:
+        - $ref: '#/components/parameters/orderId'
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+    delete:
+      summary: Delete order by id
+      operationId: deleteOrder
+      parameters:
+        - $ref: '#/components/parameters/orderId'
+      responses:
+        200:
+          description: Successful response
   /authenticate:
     post:
       summary: Authenticate API users
@@ -199,6 +252,13 @@ components:
         type: number
       required: true
       description: Numeric ID of the product to get
+    orderId:
+      in: path
+      name: orderId
+      schema:
+        type: number
+      required: true
+      description: Numeric ID of the order to get
   requestBodies:
     SaveCustomerRequest:
       content:
@@ -215,6 +275,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Product'
+    SaveOrderRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Order'
     JwtRequest:
       content:
         application/json:
@@ -245,9 +310,8 @@ components:
         id:
           type: integer
           format: int64
-        customerId:
-          type: integer
-          format: int64
+        customer:
+          $ref: '#/components/schemas/Customer'
         phoneNumber:
           type: string
           example: +35699720374
@@ -272,12 +336,10 @@ components:
         id:
           type: integer
           format: int64
-        productId:
-          type: integer
-          format: int64
-        contactId:
-          type: integer
-          format: int64
+        product:
+          $ref: '#/components/schemas/Product'
+        contact:
+          $ref: '#/components/schemas/Contact'
     CreateCustomerRequest:
       $ref: '#/components/schemas/Customer'
     JwtRequest:
