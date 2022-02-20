@@ -8,6 +8,8 @@ This project aims for implementing sample order based microservice
 
 ## How To Test
 
+Note: This project uses contract-first approach according to OpenApi3 specification. Codegen is used to generate models and api interfaces.
+
 1. Install OpenJDK14
 
 (Ubuntu, Debian) https://docs.datastax.com/en/jdk-install/doc/jdk-install/installOpenJdkDeb.html
