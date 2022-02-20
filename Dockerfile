@@ -1,4 +1,4 @@
-FROM adoptopenjdk:17-jre-hotspot as builder
+FROM adoptopenjdk:14-jre-hotspot as builder
 WORKDIR application
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} application.jar

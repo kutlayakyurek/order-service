@@ -17,6 +17,4 @@ public abstract class AbstractEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected long id;
 
-    protected boolean active;
-
 }

@@ -11,11 +11,11 @@
     <groupId>com.ka</groupId>
     <artifactId>order-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>order-service</name>
     <description>Product order micro services</description>
     <properties>
-        <java.version>17</java.version>
+        <java.version>14</java.version>
         <openapi.version>1.6.6</openapi.version>
         <swagger-annotations.version>1.6.5</swagger-annotations.version>
         <jackson-databind-nullable.version>0.2.2</jackson-databind-nullable.version>
